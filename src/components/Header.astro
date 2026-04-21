@@ -1,0 +1,124 @@
+---
+interface Props {
+  transparent?: boolean;
+}
+
+const { transparent = false } = Astro.props;
+
+const nav = [
+  { href: '/about', label: 'About' },
+  { href: '/approach', label: 'Approach' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/blog', label: 'Insights' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
+---
+
+<header
+  id="site-header"
+  data-transparent={transparent ? 'true' : 'false'}
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+    transparent ? 'bg-transparent' : 'bg-navy shadow-lg',
+  ]}
+>
+  <div class="container-narrow flex items-center justify-between py-4 md:py-5">
+    <a href="/" class="flex items-center gap-3 group" aria-label="Adams Summit Partners home">
+      <img
+        src="/images/logo-nobg.png"
+        alt="Adams Summit Partners"
+        class="h-10 md:h-12 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
+      />
+      <span class="sr-only">Adams Summit Partners</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+      {
+        nav.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'text-sm tracking-wider uppercase font-medium transition-colors',
+              isActive(href) ? 'text-gold' : 'text-white/90 hover:text-gold',
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
+      <a href="/contact" class="btn-outline">Invest With Us</a>
+    </nav>
+
+    <button
+      id="mobile-menu-toggle"
+      class="lg:hidden text-white p-2 -mr-2"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="lg:hidden hidden bg-navy border-t border-gold/20"
+  >
+    <nav class="container-narrow py-6 flex flex-col gap-4" aria-label="Mobile">
+      {
+        nav.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              'text-base tracking-wider uppercase font-medium py-2',
+              isActive(href) ? 'text-gold' : 'text-white/90',
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
+      <a href="/contact" class="btn-outline mt-2 self-start">Invest With Us</a>
+    </nav>
+  </div>
+</header>
+
+<div class="h-[72px] md:h-[80px]" data-header-spacer data-transparent={transparent ? 'true' : 'false'}></div>
+
+<script>
+  const header = document.getElementById('site-header');
+  const spacer = document.querySelector('[data-header-spacer]') as HTMLElement | null;
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (spacer?.dataset.transparent === 'true') {
+    spacer.style.display = 'none';
+  }
+
+  if (header?.dataset.transparent === 'true') {
+    const updateHeader = () => {
+      if (window.scrollY > 40) {
+        header.classList.remove('bg-transparent');
+        header.classList.add('bg-navy', 'shadow-lg');
+      } else {
+        header.classList.add('bg-transparent');
+        header.classList.remove('bg-navy', 'shadow-lg');
+      }
+    };
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+  }
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

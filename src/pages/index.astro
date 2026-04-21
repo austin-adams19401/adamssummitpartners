@@ -1,0 +1,178 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Hero from '~/components/Hero.astro';
+import SectionHeading from '~/components/SectionHeading.astro';
+import StatBlock from '~/components/StatBlock.astro';
+import DealCard from '~/components/DealCard.astro';
+import TeamMember from '~/components/TeamMember.astro';
+import CTABanner from '~/components/CTABanner.astro';
+
+const dealsAll = await getCollection('deals');
+const deals = dealsAll
+  .filter((d) => d.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const teamAll = await getCollection('team');
+const team = teamAll.sort((a, b) => a.data.order - b.data.order);
+
+const values = [
+  {
+    title: 'Disciplined Underwriting',
+    body: 'Every acquisition is stress-tested against conservative rent, expense, and exit assumptions — we only invest when the numbers give us conviction.',
+  },
+  {
+    title: 'Aligned Interests',
+    body: 'Principals invest alongside every deal. When our investors win, we win. When markets shift, we share the pain and the work.',
+  },
+  {
+    title: 'Operational Expertise',
+    body: 'We combine hands-on property operations with institutional-grade reporting so investors get clarity without surprises.',
+  },
+  {
+    title: 'Legacy Orientation',
+    body: 'We invest for durable, multi-generational outcomes — not short-term flips. Our holds are deliberate, our distributions predictable.',
+  },
+];
+---
+
+<BaseLayout
+  title="Adams Summit Partners"
+  description="Adams Summit Partners is a private real estate investment firm elevating value and building legacy for accredited investors."
+  transparentHeader={true}
+>
+  <Hero />
+
+  <!-- Why ASP -->
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading
+        eyebrow="Why Adams Summit"
+        heading="A Partner, Not a Platform."
+        lede="We believe real estate is best built on conviction, patience, and alignment. Our investors are partners — not account numbers."
+      />
+
+      <div class="grid gap-8 md:grid-cols-2 mt-16">
+        {
+          values.map(({ title, body }) => (
+            <div class="bg-white p-8 md:p-10 border-l-2 border-gold">
+              <h3 class="font-serif text-2xl text-navy mb-3">{title}</h3>
+              <p class="text-charcoal/80 leading-relaxed">{body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach teaser -->
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+      <div class="relative aspect-[4/5] overflow-hidden bg-navy">
+        <img
+          src="https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1600&q=60"
+          alt="Modern residential property"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <SectionHeading
+          eyebrow="Our Approach"
+          heading="Institutional discipline. Boutique attention."
+          lede="We acquire multifamily, mixed-use, and select development opportunities in supply-constrained growth markets — with a bias toward the Mountain West."
+        />
+        <div class="mt-8 space-y-4 prose-brand max-w-none">
+          <p>
+            Our investment thesis favors assets where operational improvement, demographic
+            tailwinds, and long-term demand converge. We underwrite every deal as if we were
+            writing the check ourselves — because we are.
+          </p>
+        </div>
+        <a href="/approach" class="btn-outline mt-10 text-navy border-navy hover:bg-navy hover:text-gold">
+          Explore Our Approach
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Deals -->
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <SectionHeading
+          eyebrow="Representative Portfolio"
+          heading="A look at the kinds of assets we pursue."
+        />
+        <a href="/portfolio" class="text-sm tracking-wider uppercase font-medium text-navy hover:text-gold border-b border-gold pb-1 self-start md:self-end">
+          View Full Portfolio →
+        </a>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        {
+          deals.map((deal) => (
+            <DealCard
+              name={deal.data.name}
+              location={deal.data.location}
+              assetClass={deal.data.assetClass}
+              units={deal.data.units}
+              status={deal.data.status}
+              image={deal.data.heroImage}
+              summary={deal.data.summary}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Stat strip -->
+  <section class="bg-navy py-20 md:py-24">
+    <div class="container-narrow">
+      <StatBlock
+        invert={true}
+        stats={[
+          { value: 'MTN', label: 'West Focused' },
+          { value: 'B+A', label: 'Multifamily Class' },
+          { value: '5–10', label: 'Year Hold Target' },
+          { value: '100%', label: 'Principal Co-Invest' },
+        ]}
+      />
+    </div>
+  </section>
+
+  <!-- Team teaser -->
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading
+        eyebrow="Leadership"
+        heading="The people behind the partnership."
+        lede="Our principals bring hands-on real estate, finance, and operations experience — and the conviction to put their own capital to work alongside yours."
+        align="center"
+      />
+
+      <div class="grid gap-10 md:gap-16 md:grid-cols-2 max-w-4xl mx-auto mt-16">
+        {
+          team.map((member) => (
+            <TeamMember
+              name={member.data.name}
+              role={member.data.role}
+              bio={member.data.bio}
+              photo={member.data.photo}
+            />
+          ))
+        }
+      </div>
+
+      <div class="text-center mt-16">
+        <a href="/about" class="btn-outline text-navy border-navy hover:bg-navy hover:text-gold">
+          Meet the Firm
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

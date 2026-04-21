@@ -1,0 +1,26 @@
+---
+interface Props {
+  heading?: string;
+  body?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  heading = 'Partner with Adams Summit.',
+  body = 'Discover how our disciplined approach to real estate can complement your portfolio and build lasting legacy wealth.',
+  ctaLabel = 'Start a Conversation',
+  ctaHref = '/contact',
+} = Astro.props;
+---
+
+<section class="bg-navy text-white">
+  <div class="container-narrow py-20 md:py-28 text-center">
+    <span class="gold-rule mx-auto mb-8"></span>
+    <h2 class="font-serif text-4xl md:text-5xl text-white mb-6">{heading}</h2>
+    <p class="max-w-xl mx-auto text-white/80 mb-10 leading-relaxed">
+      {body}
+    </p>
+    <a href={ctaHref} class="btn-primary">{ctaLabel}</a>
+  </div>
+</section>

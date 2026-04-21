@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import DealCard from '~/components/DealCard.astro';
+import CTABanner from '~/components/CTABanner.astro';
+
+const dealsAll = await getCollection('deals');
+const deals = dealsAll.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="A look at the kinds of real estate investments Adams Summit Partners pursues and operates."
+>
+  <PageHero
+    eyebrow="Portfolio"
+    heading="Representative opportunities."
+    lede="The assets below illustrate the type of investments Adams Summit Partners targets. Current and past offerings are shared with accredited investors upon request."
+  />
+
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {
+          deals.map((deal) => (
+            <DealCard
+              name={deal.data.name}
+              location={deal.data.location}
+              assetClass={deal.data.assetClass}
+              units={deal.data.units}
+              status={deal.data.status}
+              image={deal.data.heroImage}
+              summary={deal.data.summary}
+            />
+          ))
+        }
+      </div>
+
+      <div class="mt-20 max-w-2xl mx-auto text-center">
+        <p class="eyebrow mb-4">A Note on Disclosure</p>
+        <p class="text-charcoal/80 leading-relaxed">
+          The properties shown are representative samples. Specific offering details, including
+          projected returns, are shared privately with accredited investors through our
+          offering documents.
+          <a href="/disclosures" class="underline text-navy hover:text-gold">
+            Read full disclosures
+          </a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Want to see current opportunities?"
+    body="Accredited investors can request access to our active offerings. We'll verify your status and share details privately."
+    ctaLabel="Request Access"
+  />
+</BaseLayout>

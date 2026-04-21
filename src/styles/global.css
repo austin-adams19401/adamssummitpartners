@@ -1,0 +1,74 @@
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource-variable/inter';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-navy: #0B1E3B;
+    --color-gold: #C9A961;
+    --color-cream: #FAF8F3;
+    --color-charcoal: #1F2937;
+  }
+
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
+  body {
+    @apply bg-cream text-charcoal font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-navy;
+    font-weight: 500;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  ::selection {
+    background-color: rgba(201, 169, 97, 0.4);
+    color: var(--color-navy);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 bg-gold text-navy font-sans font-medium tracking-wider uppercase text-xs sm:text-sm transition-colors duration-300 hover:bg-gold-300 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-3 border border-gold text-gold font-sans font-medium tracking-wider uppercase text-xs sm:text-sm transition-colors duration-300 hover:bg-gold hover:text-navy focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+  }
+
+  .eyebrow {
+    @apply text-xs tracking-widest uppercase text-gold font-sans font-medium;
+  }
+
+  .container-narrow {
+    @apply mx-auto max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .container-prose {
+    @apply mx-auto max-w-3xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .gold-rule {
+    @apply block w-16 h-px bg-gold;
+  }
+
+  .prose-brand {
+    @apply text-charcoal/90 leading-relaxed;
+  }
+
+  .prose-brand p + p {
+    @apply mt-4;
+  }
+}

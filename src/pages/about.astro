@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import SectionHeading from '~/components/SectionHeading.astro';
+import TeamMember from '~/components/TeamMember.astro';
+import CTABanner from '~/components/CTABanner.astro';
+
+const teamAll = await getCollection('team');
+const team = teamAll.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="About"
+  description="Adams Summit Partners is a private real estate investment firm founded on disciplined underwriting, hands-on operations, and multi-generational thinking."
+>
+  <PageHero
+    eyebrow="Our Firm"
+    heading="Built on conviction. Focused on legacy."
+    lede="Adams Summit Partners was founded to bring institutional discipline to private real estate investing — without losing the personal relationships that make partnership meaningful."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-prose prose-brand text-lg">
+      <p>
+        <!-- PLACEHOLDER — firm story draft. -->
+        Adams Summit Partners is a private real estate investment firm headquartered in
+        Utah and focused on the Mountain West. We exist because we believe real estate
+        investing should combine the discipline of institutional capital with the clarity
+        and alignment of a boutique partnership.
+      </p>
+      <p>
+        Our approach is straightforward: we find undervalued or under-operated assets in
+        markets we understand, we underwrite them with conservative assumptions, and we
+        operate them with care. When we say partnership, we mean it — our principals
+        invest their own capital alongside every investor on every deal.
+      </p>
+      <p>
+        The name reflects the work. <em>Adams</em> for the family behind it. <em>Summit</em>
+        for the ambition to climb high. <em>Partners</em> because we only move forward
+        together with the people who invest with us.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading
+        eyebrow="Our Principles"
+        heading="How we show up on every deal."
+        align="center"
+      />
+
+      <div class="grid gap-8 md:grid-cols-3 mt-16">
+        {
+          [
+            {
+              title: 'Conservatism',
+              body: 'We underwrite to a downside. If the numbers only work with aggressive assumptions, we pass.',
+            },
+            {
+              title: 'Transparency',
+              body: 'You see what we see. Reporting is clear, consistent, and never dresses up bad news.',
+            },
+            {
+              title: 'Patience',
+              body: 'We underwrite 5-10 year holds and we act like it. No forced exits to hit arbitrary deadlines.',
+            },
+          ].map(({ title, body }) => (
+            <div class="text-center">
+              <span class="gold-rule mx-auto mb-6" />
+              <h3 class="font-serif text-2xl text-navy mb-3">{title}</h3>
+              <p class="text-charcoal/80 leading-relaxed">{body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading
+        eyebrow="Leadership"
+        heading="The principals."
+        align="center"
+      />
+
+      <div class="grid gap-12 md:gap-16 md:grid-cols-2 max-w-4xl mx-auto mt-16">
+        {
+          team.map((member) => (
+            <TeamMember
+              name={member.data.name}
+              role={member.data.role}
+              bio={member.data.bio}
+              photo={member.data.photo}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Interested in learning more?"
+    body="Schedule a call with our team to discuss how Adams Summit Partners can fit into your investment strategy."
+  />
+</BaseLayout>

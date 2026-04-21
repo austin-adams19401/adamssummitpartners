@@ -1,0 +1,63 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author: string;
+  image?: string;
+  tags: string[];
+}
+
+const { title, description, pubDate, updatedDate, author, image, tags } = Astro.props;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article>
+    <header class="bg-navy text-white">
+      <div class="container-prose py-24 md:py-32">
+        <p class="eyebrow mb-5">Insights</p>
+        <h1 class="font-serif text-4xl md:text-5xl text-white leading-tight mb-6">{title}</h1>
+        <span class="gold-rule mb-6"></span>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/70">
+          <span>By {author}</span>
+          <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+          {updatedDate && (
+            <span class="italic">Updated {formatDate(updatedDate)}</span>
+          )}
+        </div>
+      </div>
+    </header>
+
+    {
+      image && (
+        <div class="container-narrow -mt-12 md:-mt-16 relative z-10">
+          <img src={image} alt="" class="w-full aspect-[16/9] object-cover shadow-xl" />
+        </div>
+      )
+    }
+
+    <div class="bg-white py-16 md:py-20">
+      <div class="container-prose prose-brand prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-navy prose-a:text-navy prose-a:underline hover:prose-a:text-gold prose-strong:text-navy">
+        <slot />
+      </div>
+
+      {
+        tags.length > 0 && (
+          <div class="container-prose mt-12 pt-8 border-t border-navy/10 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span class="text-xs tracking-widest uppercase text-gold border border-gold/40 px-3 py-1">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

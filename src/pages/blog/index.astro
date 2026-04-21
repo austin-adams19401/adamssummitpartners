@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import CTABanner from '~/components/CTABanner.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout
+  title="Insights"
+  description="Perspectives on private real estate, syndication, and building long-term investor wealth from the team at Adams Summit Partners."
+>
+  <PageHero
+    eyebrow="Insights"
+    heading="Perspectives on real estate and partnership."
+    lede="Periodic notes on markets, underwriting, and what we're learning as we operate in the Mountain West."
+  />
+
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      {
+        posts.length === 0 ? (
+          <div class="max-w-2xl mx-auto text-center py-12">
+            <span class="gold-rule mx-auto mb-8" />
+            <h2 class="font-serif text-3xl text-navy mb-4">Insights coming soon.</h2>
+            <p class="text-charcoal/80 leading-relaxed">
+              We're preparing our first pieces on private real estate investing, market
+              observations, and the craft of syndication. In the meantime, reach out with
+              any questions — we'd rather talk than publish.
+            </p>
+            <a href="/contact" class="btn-primary mt-8">Get in Touch</a>
+          </div>
+        ) : (
+          <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <a href={`/blog/${post.slug}/`} class="group block bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+                {post.data.image && (
+                  <div class="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={post.data.image}
+                      alt=""
+                      loading="lazy"
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div class="p-7">
+                  <p class="eyebrow mb-3">{formatDate(post.data.pubDate)}</p>
+                  <h3 class="font-serif text-2xl text-navy mb-2 group-hover:text-gold transition-colors">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-sm text-charcoal/70 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

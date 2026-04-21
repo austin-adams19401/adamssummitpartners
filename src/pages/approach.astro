@@ -1,0 +1,117 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import SectionHeading from '~/components/SectionHeading.astro';
+import CTABanner from '~/components/CTABanner.astro';
+
+const assetClasses = [
+  {
+    title: 'Multifamily',
+    body: 'Class A and Class B apartment communities with clear operational upside or strong demographic tailwinds. Our primary focus.',
+  },
+  {
+    title: 'Mixed-Use',
+    body: 'Selective residential-plus-retail acquisitions in infill locations where ground-floor commercial supports residential demand.',
+  },
+  {
+    title: 'Ground-Up Development',
+    body: 'Opportunistic development when land basis, entitlements, and demand converge to justify the construction risk premium.',
+  },
+];
+
+const process = [
+  {
+    n: '01',
+    title: 'Sourcing',
+    body: 'Direct seller relationships, broker networks, and market-level monitoring surface opportunities before they hit broad distribution.',
+  },
+  {
+    n: '02',
+    title: 'Underwriting',
+    body: 'Every deal is modeled against downside cases. We walk every property. We stress rent, vacancy, expenses, and exit caps.',
+  },
+  {
+    n: '03',
+    title: 'Capitalization',
+    body: 'We structure debt and equity to match the asset — never force-fitting capital structures that create fragility in a downturn.',
+  },
+  {
+    n: '04',
+    title: 'Operations',
+    body: 'Hands-on asset management, monthly financial reviews, and direct relationships with property managers and contractors.',
+  },
+  {
+    n: '05',
+    title: 'Distributions',
+    body: 'Predictable cash distributions where the asset supports them, with clear communication when cash is being reinvested.',
+  },
+  {
+    n: '06',
+    title: 'Exit',
+    body: 'We exit when the market rewards the work — not on an arbitrary schedule. Holds typically run 5–10 years.',
+  },
+];
+---
+
+<BaseLayout
+  title="Approach"
+  description="Our investment thesis, asset classes, and the process we use to source, underwrite, and operate every deal at Adams Summit Partners."
+>
+  <PageHero
+    eyebrow="Investment Approach"
+    heading="Discipline is the strategy."
+    lede="We believe the durable returns in real estate come from buying well, operating patiently, and staying honest about what the numbers say."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading
+        eyebrow="Thesis"
+        heading="Mountain West multifamily, with conviction."
+        lede="Population migration, job growth, and land-use constraints across the Mountain West produce a structural gap between housing supply and demand. We invest where that gap is most pronounced and most durable."
+      />
+    </div>
+  </section>
+
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading eyebrow="Asset Classes" heading="What we acquire." />
+
+      <div class="grid gap-8 md:grid-cols-3 mt-16">
+        {
+          assetClasses.map(({ title, body }) => (
+            <div class="bg-white p-8 md:p-10 border-t-2 border-gold">
+              <h3 class="font-serif text-2xl text-navy mb-3">{title}</h3>
+              <p class="text-charcoal/80 leading-relaxed">{body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow">
+      <SectionHeading eyebrow="The Process" heading="From first look to final exit." />
+
+      <ol class="grid gap-10 md:grid-cols-2 mt-16">
+        {
+          process.map(({ n, title, body }) => (
+            <li class="flex gap-6">
+              <span class="font-serif text-gold text-3xl md:text-4xl shrink-0 w-16">{n}</span>
+              <div>
+                <h3 class="font-serif text-2xl text-navy mb-2">{title}</h3>
+                <p class="text-charcoal/80 leading-relaxed">{body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Ready to explore a partnership?"
+    body="We share current and upcoming opportunities with qualified, accredited investors. Tell us a little about what you're looking for."
+  />
+</BaseLayout>

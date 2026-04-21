@@ -1,0 +1,81 @@
+---
+const year = new Date().getFullYear();
+
+const footerNav = {
+  Firm: [
+    { href: '/about', label: 'About' },
+    { href: '/approach', label: 'Approach' },
+    { href: '/portfolio', label: 'Portfolio' },
+  ],
+  Resources: [
+    { href: '/blog', label: 'Insights' },
+    { href: '/contact', label: 'Contact' },
+    { href: '/disclosures', label: 'Disclosures' },
+  ],
+};
+---
+
+<footer class="bg-navy text-white/80">
+  <div class="container-narrow py-16 md:py-20 grid gap-12 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <a href="/" class="inline-block mb-6" aria-label="Adams Summit Partners home">
+        <img
+          src="/images/logo-nobg.png"
+          alt="Adams Summit Partners"
+          class="h-14 w-auto brightness-0 invert"
+        />
+      </a>
+      <p class="eyebrow mb-3">Elevating Value. Building Legacy.</p>
+      <p class="max-w-sm text-sm leading-relaxed text-white/70">
+        Adams Summit Partners is a private real estate investment firm focused on
+        institutional-grade opportunities for accredited investors.
+      </p>
+    </div>
+
+    <div class="md:col-span-4 grid grid-cols-2 gap-8">
+      {
+        Object.entries(footerNav).map(([heading, links]) => (
+          <div>
+            <h3 class="text-xs tracking-widest uppercase text-gold font-sans font-medium mb-4">
+              {heading}
+            </h3>
+            <ul class="space-y-2">
+              {links.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="text-sm text-white/80 hover:text-gold">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="md:col-span-3">
+      <h3 class="text-xs tracking-widest uppercase text-gold font-sans font-medium mb-4">
+        Get in Touch
+      </h3>
+      <address class="not-italic text-sm space-y-2 text-white/80">
+        <div>Kaysville, Utah</div>
+        <div>
+          <a href="mailto:invest@adamssummitpartners.com" class="hover:text-gold">
+            invest@adamssummitpartners.com
+          </a>
+        </div>
+      </address>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-narrow py-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-xs text-white/50">
+      <p>&copy; {year} Adams Summit Partners. All rights reserved.</p>
+      <p class="max-w-2xl md:text-right">
+        This website is for informational purposes only and does not constitute an offer to sell
+        or a solicitation of an offer to buy any securities.
+        <a href="/disclosures" class="underline hover:text-gold ml-1">Full disclosures</a>.
+      </p>
+    </div>
+  </div>
+</footer>

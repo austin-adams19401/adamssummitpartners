@@ -1,0 +1,61 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import ContactForm from '~/components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Adams Summit Partners about investment opportunities, partnership, or general inquiries."
+>
+  <PageHero
+    eyebrow="Get in Touch"
+    heading="Start the conversation."
+    lede="Whether you're exploring real estate investing for the first time or evaluating us alongside other sponsors, we're happy to talk."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-narrow grid gap-12 md:gap-16 lg:grid-cols-5">
+      <div class="lg:col-span-2 space-y-10">
+        <div>
+          <h2 class="font-serif text-3xl text-navy mb-4">How to reach us</h2>
+          <span class="gold-rule mb-6"></span>
+          <p class="text-charcoal/80 leading-relaxed">
+            Fill out the form and we'll follow up within one business day. Prefer email or
+            phone? Those work too.
+          </p>
+        </div>
+
+        <dl class="space-y-6">
+          <div>
+            <dt class="eyebrow mb-1">Email</dt>
+            <dd>
+              <a
+                href="mailto:invest@adamssummitpartners.com"
+                class="font-serif text-xl text-navy hover:text-gold"
+              >
+                invest@adamssummitpartners.com
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="eyebrow mb-1">Location</dt>
+            <dd class="font-serif text-xl text-navy">Kaysville, Utah</dd>
+          </div>
+        </dl>
+
+        <div class="bg-cream p-6 border-l-2 border-gold">
+          <p class="text-sm text-charcoal/80 leading-relaxed">
+            Offerings are made only through formal offering documents and are limited to
+            accredited investors. The submission of this form does not create an investor
+            relationship.
+          </p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

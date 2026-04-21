@@ -1,0 +1,35 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  bio?: string;
+  photo?: string;
+}
+
+const { name, role, bio, photo } = Astro.props;
+
+const initials = name
+  .split(' ')
+  .map((p) => p[0])
+  .filter(Boolean)
+  .slice(0, 2)
+  .join('');
+---
+
+<article class="text-center">
+  <div class="relative aspect-square mb-6 overflow-hidden bg-navy">
+    {
+      photo ? (
+        <img src={photo} alt={name} loading="lazy" class="w-full h-full object-cover" />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center bg-navy text-gold">
+          <span class="font-serif text-5xl md:text-6xl">{initials}</span>
+        </div>
+      )
+    }
+    <div class="absolute inset-x-0 bottom-0 h-1 bg-gold"></div>
+  </div>
+  <h3 class="font-serif text-2xl text-navy mb-1">{name}</h3>
+  <p class="eyebrow mb-4">{role}</p>
+  {bio && <p class="text-sm text-charcoal/80 leading-relaxed max-w-sm mx-auto">{bio}</p>}
+</article>
