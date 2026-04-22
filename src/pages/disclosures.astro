@@ -5,13 +5,15 @@ import PageHero from '~/components/PageHero.astro';
 
 <BaseLayout
   title="Disclosures"
-  description="Legal disclosures and privacy information for Adams Summit Partners."
+  description="Legal disclosures, privacy policy, and accredited-investor information for Adams Summit Partners."
 >
   <PageHero eyebrow="Legal" heading="Disclosures &amp; Privacy." />
 
   <section class="bg-white py-20 md:py-28">
     <div class="container-prose prose-brand space-y-8">
-      <!-- PLACEHOLDER — review with securities counsel before launch. -->
+      <p class="text-sm text-charcoal/60">
+        Last reviewed: pending counsel review, 2026-04-22.
+      </p>
 
       <div>
         <h2 class="font-serif text-2xl text-navy mb-3">General Disclosure</h2>
@@ -60,6 +62,18 @@ import PageHero from '~/components/PageHero.astro';
       </div>
 
       <div>
+        <h2 class="font-serif text-2xl text-navy mb-3">Jurisdiction</h2>
+        <span class="gold-rule mb-4"></span>
+        <p>
+          Offerings, when made, are limited to jurisdictions where such offerings are
+          lawful. Adams Summit Partners is not registered as a broker-dealer, investment
+          adviser, or funding portal with the U.S. Securities and Exchange Commission or
+          any state securities authority. Nothing on this website constitutes legal, tax,
+          or investment advice.
+        </p>
+      </div>
+
+      <div>
         <h2 class="font-serif text-2xl text-navy mb-3">Privacy</h2>
         <span class="gold-rule mb-4"></span>
         <p>
@@ -68,6 +82,16 @@ import PageHero from '~/components/PageHero.astro';
           information about investment opportunities. We do not sell or share your
           information with third parties other than service providers necessary to operate
           our business.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-2xl text-navy mb-3">Contact for Legal Questions</h2>
+        <span class="gold-rule mb-4"></span>
+        <p>
+          Questions about these disclosures or our privacy practices can be directed to
+          <a href="mailto:invest@adamssummitpartners.com" class="underline text-navy hover:text-gold">invest@adamssummitpartners.com</a>.
+          Adams Summit Partners is based in Kaysville, Utah.
         </p>
       </div>
 

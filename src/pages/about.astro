@@ -8,37 +8,69 @@ import CTABanner from '~/components/CTABanner.astro';
 
 const teamAll = await getCollection('team');
 const team = teamAll.sort((a, b) => a.data.order - b.data.order);
+
+const values = [
+  {
+    title: 'Family is the point',
+    body: 'The business funds a life. It does not replace one. That shapes how we size deals, how long we hold, and how many we run at once.',
+  },
+  {
+    title: 'Operations over optics',
+    body: 'Most syndicators are good at raising money and bad at running properties. We built this firm to be the opposite.',
+  },
+  {
+    title: 'Fairness to everyone at the table',
+    body: 'Investors, residents, staff, and contractors all deserve honest numbers and honest work. If a deal only wins for one side, it is not our deal.',
+  },
+  {
+    title: 'Thinking in generations',
+    body: 'We buy properties we would be fine owning through a full cycle. Holds are deliberate. Distributions are predictable.',
+  },
+  {
+    title: 'Intentional work',
+    body: 'Thirty focused hours on the right things beats sixty reactive hours on everything. We protect calendar space for walking properties and thinking through decisions.',
+  },
+  {
+    title: 'Generosity with purpose',
+    body: 'A meaningful portion of firm profits goes to the foster system, parents of young children, and families of kids with disabilities.',
+  },
+];
 ---
 
 <BaseLayout
   title="About"
-  description="Adams Summit Partners is a private real estate investment firm founded on disciplined underwriting, hands-on operations, and multi-generational thinking."
+  description="Adams Summit Partners is a Utah multifamily real estate firm founded by Austin Adams. Operator-first, built for working investors across the Mountain West."
 >
   <PageHero
     eyebrow="Our Firm"
-    heading="Built on conviction. Focused on legacy."
-    lede="Adams Summit Partners was founded to bring institutional discipline to private real estate investing — without losing the personal relationships that make partnership meaningful."
+    heading="A small firm run by the operator."
+    lede="Adams Summit Partners is a Utah-based real estate firm. We acquire multifamily properties across the Mountain West and run them ourselves, for working investors who want a real operator on the other end of their capital."
   />
 
   <section class="bg-white py-20 md:py-28">
     <div class="container-prose prose-brand text-lg">
       <p>
-        <!-- PLACEHOLDER — firm story draft. -->
-        Adams Summit Partners is a private real estate investment firm headquartered in
-        Utah and focused on the Mountain West. We exist because we believe real estate
-        investing should combine the discipline of institutional capital with the clarity
-        and alignment of a boutique partnership.
+        Austin Adams founded the firm. He is a software engineer by training, lives in
+        Kaysville, Utah with his wife Janae and their nine kids, and built Adams Summit
+        Partners because he watched too much of multifamily syndication get dominated by
+        people who raise well and run poorly. He wanted the opposite of that. Systems
+        first, marketing second.
       </p>
       <p>
-        Our approach is straightforward: we find undervalued or under-operated assets in
-        markets we understand, we underwrite them with conservative assumptions, and we
-        operate them with care. When we say partnership, we mean it — our principals
-        invest their own capital alongside every investor on every deal.
+        The focus is narrow on purpose: multifamily properties in the Mountain West. The
+        investors are working professionals, small business owners, and people with real
+        savings they want put to work by someone who actually answers the phone. Not
+        institutions. Not anonymous LPs. Partners.
       </p>
       <p>
-        The name reflects the work. <em>Adams</em> for the family behind it. <em>Summit</em>
-        for the ambition to climb high. <em>Partners</em> because we only move forward
-        together with the people who invest with us.
+        Residents matter as much as investors. A property only works long-term if it is the
+        best-run and most-responsive option in its market at a rent a working family can
+        actually afford. That is not a marketing line. It is a constraint we underwrite to.
+      </p>
+      <p>
+        A meaningful portion of firm profits goes back to causes the family cares about:
+        the foster system, parents of young children, and families of kids with
+        disabilities. Business funds the life, including the giving.
       </p>
     </div>
   </section>
@@ -46,27 +78,14 @@ const team = teamAll.sort((a, b) => a.data.order - b.data.order);
   <section class="bg-cream py-20 md:py-28">
     <div class="container-narrow">
       <SectionHeading
-        eyebrow="Our Principles"
+        eyebrow="Our Values"
         heading="How we show up on every deal."
         align="center"
       />
 
       <div class="grid gap-8 md:grid-cols-3 mt-16">
         {
-          [
-            {
-              title: 'Conservatism',
-              body: 'We underwrite to a downside. If the numbers only work with aggressive assumptions, we pass.',
-            },
-            {
-              title: 'Transparency',
-              body: 'You see what we see. Reporting is clear, consistent, and never dresses up bad news.',
-            },
-            {
-              title: 'Patience',
-              body: 'We underwrite 5-10 year holds and we act like it. No forced exits to hit arbitrary deadlines.',
-            },
-          ].map(({ title, body }) => (
+          values.map(({ title, body }) => (
             <div class="text-center">
               <span class="gold-rule mx-auto mb-6" />
               <h3 class="font-serif text-2xl text-navy mb-3">{title}</h3>
@@ -82,11 +101,11 @@ const team = teamAll.sort((a, b) => a.data.order - b.data.order);
     <div class="container-narrow">
       <SectionHeading
         eyebrow="Leadership"
-        heading="The principals."
+        heading="The founder."
         align="center"
       />
 
-      <div class="grid gap-12 md:gap-16 md:grid-cols-2 max-w-4xl mx-auto mt-16">
+      <div class="grid gap-12 md:gap-16 md:grid-cols-1 max-w-xl mx-auto mt-16">
         {
           team.map((member) => (
             <TeamMember
@@ -102,7 +121,7 @@ const team = teamAll.sort((a, b) => a.data.order - b.data.order);
   </section>
 
   <CTABanner
-    heading="Interested in learning more?"
-    body="Schedule a call with our team to discuss how Adams Summit Partners can fit into your investment strategy."
+    heading="Want to talk?"
+    body="If you have capital looking for a real operator, start a conversation. No pitch deck, no pressure."
   />
 </BaseLayout>

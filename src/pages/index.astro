@@ -19,27 +19,27 @@ const team = teamAll.sort((a, b) => a.data.order - b.data.order);
 
 const values = [
   {
-    title: 'Disciplined Underwriting',
-    body: 'Every acquisition is stress-tested against conservative rent, expense, and exit assumptions — we only invest when the numbers give us conviction.',
+    title: 'Operations over optics',
+    body: 'Most syndicators are good at raising money and bad at running properties. We built this firm to be the opposite. Systems first, marketing second.',
   },
   {
-    title: 'Aligned Interests',
-    body: 'Principals invest alongside every deal. When our investors win, we win. When markets shift, we share the pain and the work.',
+    title: 'Fairness to everyone at the table',
+    body: 'Investor returns matter. So does a rent a working family can actually afford. A good deal works for both, or it is not a good deal.',
   },
   {
-    title: 'Operational Expertise',
-    body: 'We combine hands-on property operations with institutional-grade reporting so investors get clarity without surprises.',
+    title: 'Thinking in generations',
+    body: 'Holds are 5 to 10 years on purpose. We do not force exits to hit arbitrary deadlines, and we do not buy things we would be nervous to own through a downturn.',
   },
   {
-    title: 'Legacy Orientation',
-    body: 'We invest for durable, multi-generational outcomes — not short-term flips. Our holds are deliberate, our distributions predictable.',
+    title: 'Family is the point',
+    body: 'The business funds a life. It does not replace one. That shapes how we size deals, how long we hold, and how many we run at a time.',
   },
 ];
 ---
 
 <BaseLayout
   title="Adams Summit Partners"
-  description="Adams Summit Partners is a private real estate investment firm elevating value and building legacy for accredited investors."
+  description="Mountain West multifamily real estate syndication based in Utah. Built for working investors who want the operator to pick up the phone."
   transparentHeader={true}
 >
   <Hero />
@@ -50,7 +50,7 @@ const values = [
       <SectionHeading
         eyebrow="Why Adams Summit"
         heading="A Partner, Not a Platform."
-        lede="We believe real estate is best built on conviction, patience, and alignment. Our investors are partners — not account numbers."
+        lede="We run a small, focused real estate firm. Our investors are partners who know the operator by name and know how their properties are actually being run."
       />
 
       <div class="grid gap-8 md:grid-cols-2 mt-16">
@@ -72,7 +72,7 @@ const values = [
       <div class="relative aspect-[4/5] overflow-hidden bg-navy">
         <img
           src="https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1600&q=60"
-          alt="Modern residential property"
+          alt="Mountain West multifamily property"
           class="w-full h-full object-cover"
           loading="lazy"
         />
@@ -80,18 +80,19 @@ const values = [
       <div>
         <SectionHeading
           eyebrow="Our Approach"
-          heading="Institutional discipline. Boutique attention."
-          lede="We acquire multifamily, mixed-use, and select development opportunities in supply-constrained growth markets — with a bias toward the Mountain West."
+          heading="Built to operate, not just raise."
+          lede="We acquire multifamily properties across the Mountain West for working professionals and small business owners who want a real operator on the other end of their capital."
         />
         <div class="mt-8 space-y-4 prose-brand max-w-none">
           <p>
-            Our investment thesis favors assets where operational improvement, demographic
-            tailwinds, and long-term demand converge. We underwrite every deal as if we were
-            writing the check ourselves — because we are.
+            Every property gets a qualified manager and a system that runs it. We stress the
+            numbers against a real downside, we walk the buildings, and we pass when the deal
+            only works on aggressive cases. When something goes wrong, investors hear from
+            the operator first, not a PR statement.
           </p>
         </div>
         <a href="/approach" class="btn-outline mt-10 text-navy border-navy hover:bg-navy hover:text-gold">
-          Explore Our Approach
+          See How We Operate
         </a>
       </div>
     </div>
@@ -102,8 +103,8 @@ const values = [
     <div class="container-narrow">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
         <SectionHeading
-          eyebrow="Representative Portfolio"
-          heading="A look at the kinds of assets we pursue."
+          eyebrow="What We Pursue"
+          heading="The kinds of properties we are built to run."
         />
         <a href="/portfolio" class="text-sm tracking-wider uppercase font-medium text-navy hover:text-gold border-b border-gold pb-1 self-start md:self-end">
           View Full Portfolio →
@@ -134,9 +135,9 @@ const values = [
       <StatBlock
         invert={true}
         stats={[
-          { value: 'MTN', label: 'West Focused' },
-          { value: 'B+A', label: 'Multifamily Class' },
-          { value: '5–10', label: 'Year Hold Target' },
+          { value: 'Mtn West', label: 'Regional Focus' },
+          { value: 'Multifamily', label: 'Property Type' },
+          { value: '5 to 10 yr', label: 'Target Hold' },
           { value: '100%', label: 'Principal Co-Invest' },
         ]}
       />
@@ -148,12 +149,12 @@ const values = [
     <div class="container-narrow">
       <SectionHeading
         eyebrow="Leadership"
-        heading="The people behind the partnership."
-        lede="Our principals bring hands-on real estate, finance, and operations experience — and the conviction to put their own capital to work alongside yours."
+        heading="The person behind the partnership."
+        lede="Small and intentional. The people running the firm are the same people answering your calls and walking the properties."
         align="center"
       />
 
-      <div class="grid gap-10 md:gap-16 md:grid-cols-2 max-w-4xl mx-auto mt-16">
+      <div class="grid gap-10 md:gap-16 md:grid-cols-1 max-w-xl mx-auto mt-16">
         {
           team.map((member) => (
             <TeamMember

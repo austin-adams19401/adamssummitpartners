@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title = 'Adams Summit Partners',
-  description = 'Adams Summit Partners is a real estate syndication firm elevating value and building legacy through disciplined, institutional-grade investments.',
+  description = 'Adams Summit Partners is a Utah-based real estate firm acquiring and operating multifamily properties across the Mountain West.',
   image = '/images/logo.png',
   transparentHeader = false,
 } = Astro.props;
@@ -20,6 +20,25 @@ const {
 const fullTitle = title === 'Adams Summit Partners' ? title : `${title} | Adams Summit Partners`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL(image, Astro.site).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Adams Summit Partners',
+  url: Astro.site?.toString(),
+  logo: new URL('/images/logo.png', Astro.site).toString(),
+  founder: { '@type': 'Person', name: 'Austin Adams' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Kaysville',
+    addressRegion: 'UT',
+    addressCountry: 'US',
+  },
+  email: 'invest@adamssummitpartners.com',
+  areaServed: 'Mountain West United States',
+  description:
+    'Real estate firm acquiring and operating multifamily properties in the Mountain West for working investors.',
+};
 ---
 
 <!doctype html>
@@ -45,6 +64,8 @@ const ogImage = new URL(image, Astro.site).toString();
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header transparent={transparentHeader} />

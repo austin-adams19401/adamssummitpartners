@@ -6,16 +6,12 @@ import CTABanner from '~/components/CTABanner.astro';
 
 const assetClasses = [
   {
-    title: 'Multifamily',
-    body: 'Class A and Class B apartment communities with clear operational upside or strong demographic tailwinds. Our primary focus.',
+    title: 'Apartment Communities',
+    body: 'Our primary focus. Class A and Class B multifamily in Mountain West submarkets where rent, wages, and job growth actually support the underwriting.',
   },
   {
-    title: 'Mixed-Use',
-    body: 'Selective residential-plus-retail acquisitions in infill locations where ground-floor commercial supports residential demand.',
-  },
-  {
-    title: 'Ground-Up Development',
-    body: 'Opportunistic development when land basis, entitlements, and demand converge to justify the construction risk premium.',
+    title: 'Small Residential Communities',
+    body: 'Selective acquisitions of smaller multifamily properties where a hands-on operator can lift net operating income without gimmicks.',
   },
 ];
 
@@ -23,44 +19,44 @@ const process = [
   {
     n: '01',
     title: 'Sourcing',
-    body: 'Direct seller relationships, broker networks, and market-level monitoring surface opportunities before they hit broad distribution.',
+    body: 'Direct relationships with brokers, sellers, and operators in the submarkets we actually know. Not a deal-of-the-week email list.',
   },
   {
     n: '02',
     title: 'Underwriting',
-    body: 'Every deal is modeled against downside cases. We walk every property. We stress rent, vacancy, expenses, and exit caps.',
+    body: 'We walk every property. We stress rent, vacancy, expenses, and exit caps. If the numbers only work on aggressive cases, we pass.',
   },
   {
     n: '03',
     title: 'Capitalization',
-    body: 'We structure debt and equity to match the asset — never force-fitting capital structures that create fragility in a downturn.',
+    body: 'Match debt to the asset. We do not force-fit capital structures that look clever on paper and fail in a downturn.',
   },
   {
     n: '04',
     title: 'Operations',
-    body: 'Hands-on asset management, monthly financial reviews, and direct relationships with property managers and contractors.',
+    body: 'Every property gets a qualified manager and a written system. Austin builds the systems, holds the standards, and walks the buildings.',
   },
   {
     n: '05',
-    title: 'Distributions',
-    body: 'Predictable cash distributions where the asset supports them, with clear communication when cash is being reinvested.',
+    title: 'Reporting',
+    body: 'Monthly written update, quarterly summary, and a live dashboard built in-house. Bad news first, always. Investors hear from the operator.',
   },
   {
     n: '06',
     title: 'Exit',
-    body: 'We exit when the market rewards the work — not on an arbitrary schedule. Holds typically run 5–10 years.',
+    body: 'We sell when the market rewards the work, not on an arbitrary timer. Holds typically run 5 to 10 years.',
   },
 ];
 ---
 
 <BaseLayout
   title="Approach"
-  description="Our investment thesis, asset classes, and the process we use to source, underwrite, and operate every deal at Adams Summit Partners."
+  description="How Adams Summit Partners underwrites, operates, and reports on multifamily real estate investments in the Mountain West."
 >
   <PageHero
     eyebrow="Investment Approach"
     heading="Discipline is the strategy."
-    lede="We believe the durable returns in real estate come from buying well, operating patiently, and staying honest about what the numbers say."
+    lede="The durable returns in real estate come from buying well, operating patiently, and staying honest about what the numbers actually say. That is the whole approach."
   />
 
   <section class="bg-white py-20 md:py-28">
@@ -68,7 +64,7 @@ const process = [
       <SectionHeading
         eyebrow="Thesis"
         heading="Mountain West multifamily, with conviction."
-        lede="Population migration, job growth, and land-use constraints across the Mountain West produce a structural gap between housing supply and demand. We invest where that gap is most pronounced and most durable."
+        lede="Population growth, wage growth, and housing supply pressure across the Mountain West keep demand for well-run apartment communities durable. We invest where a good operator can still buy at a reasonable basis and run the property well."
       />
     </div>
   </section>
@@ -77,7 +73,7 @@ const process = [
     <div class="container-narrow">
       <SectionHeading eyebrow="Asset Classes" heading="What we acquire." />
 
-      <div class="grid gap-8 md:grid-cols-3 mt-16">
+      <div class="grid gap-8 md:grid-cols-2 mt-16">
         {
           assetClasses.map(({ title, body }) => (
             <div class="bg-white p-8 md:p-10 border-t-2 border-gold">
@@ -111,7 +107,7 @@ const process = [
   </section>
 
   <CTABanner
-    heading="Ready to explore a partnership?"
-    body="We share current and upcoming opportunities with qualified, accredited investors. Tell us a little about what you're looking for."
+    heading="Ready to talk about a partnership?"
+    body="We share current and upcoming multifamily opportunities with qualified accredited investors. Tell us what you are looking for and we will follow up."
   />
 </BaseLayout>
