@@ -1,0 +1,137 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+
+// TODO: replace with Austin's real Calendly URL once booked.
+const CALENDLY_URL = 'TODO_CALENDLY_URL';
+
+// Static list of documents available behind the gate. Files live in
+// public/investors/docs/ and are protected by the investor-gate edge function.
+const documents: Array<{ name: string; href: string; note?: string }> = [
+  {
+    name: 'Sample Offering Summary',
+    href: '/investors/docs/sample-offering-summary.pdf',
+    note: 'Placeholder. Real offering summaries will appear here when a deal opens.',
+  },
+];
+---
+
+<BaseLayout
+  title="Investor Area"
+  description="Private investor area for Adams Summit Partners."
+>
+  <PageHero
+    eyebrow="Investor Area"
+    heading="You're on the list."
+    lede="A small space for the people we work with. Current thinking, documents, and a direct way to get time on the calendar."
+  />
+
+  <section class="bg-white py-20 md:py-24">
+    <div class="container-narrow grid gap-12 lg:grid-cols-3">
+      <div class="lg:col-span-2 space-y-14">
+        <div>
+          <p class="eyebrow mb-4">Current Opportunities</p>
+          <h2 class="font-serif text-3xl text-navy mb-4">No active offerings right now.</h2>
+          <span class="gold-rule mb-6"></span>
+          <p class="text-charcoal/80 leading-relaxed max-w-2xl">
+            We will not post something here just to have something here. When an
+            offering opens, you will hear from us first and find the offering
+            documents in this area.
+          </p>
+        </div>
+
+        <div>
+          <p class="eyebrow mb-4">Documents</p>
+          <h2 class="font-serif text-3xl text-navy mb-4">What's here now</h2>
+          <span class="gold-rule mb-6"></span>
+          {documents.length === 0 ? (
+            <p class="text-charcoal/80 leading-relaxed">
+              No documents posted yet.
+            </p>
+          ) : (
+            <ul class="divide-y divide-navy/10 border-t border-b border-navy/10">
+              {documents.map((doc) => (
+                <li class="py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div>
+                    <a
+                      href={doc.href}
+                      class="font-serif text-xl text-navy hover:text-gold"
+                    >
+                      {doc.name}
+                    </a>
+                    {doc.note && (
+                      <p class="text-sm text-charcoal/60 mt-1">{doc.note}</p>
+                    )}
+                  </div>
+                  <a
+                    href={doc.href}
+                    class="text-sm text-navy hover:text-gold uppercase tracking-widest font-medium"
+                  >
+                    Download
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p class="text-sm text-charcoal/60 mt-4">
+            <a href="/investors/documents" class="underline hover:text-gold">
+              View all documents
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <aside class="lg:col-span-1">
+        <div class="bg-cream p-8 border-l-2 border-gold space-y-6 sticky top-8">
+          <div>
+            <p class="eyebrow mb-3">Book a Call</p>
+            <h3 class="font-serif text-2xl text-navy mb-3">Get time with Austin</h3>
+            <p class="text-sm text-charcoal/80 leading-relaxed">
+              Questions on a deal, the approach, or fit? Grab a slot. Calls run
+              about thirty minutes.
+            </p>
+          </div>
+          {CALENDLY_URL === 'TODO_CALENDLY_URL' ? (
+            <a
+              href="mailto:invest@adamssummitpartners.com?subject=Investor%20call%20request"
+              class="btn-primary w-full text-center"
+            >
+              Email to schedule
+            </a>
+          ) : (
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener"
+              class="btn-primary w-full text-center"
+            >
+              Book on Calendly
+            </a>
+          )}
+          <p class="text-xs text-charcoal/60 leading-relaxed">
+            Or email
+            <a
+              href="mailto:invest@adamssummitpartners.com"
+              class="underline hover:text-gold"
+            >
+              invest@adamssummitpartners.com
+            </a>
+            directly.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-cream py-12 border-t border-navy/10">
+    <div class="container-narrow">
+      <p class="text-xs text-charcoal/70 leading-relaxed max-w-3xl">
+        Access to this area does not constitute an offer to sell or a solicitation
+        of an offer to buy any security. Offerings are made only through formal
+        offering documents to accredited investors, and only in jurisdictions where
+        lawful. Documents posted here are for informational purposes and are
+        subject to the full offering documents when applicable.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

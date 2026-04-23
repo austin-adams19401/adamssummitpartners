@@ -1,0 +1,120 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+import TagChip from '~/components/TagChip.astro';
+import ReadingTime from '~/components/ReadingTime.astro';
+import CTABanner from '~/components/CTABanner.astro';
+import { computeReadingTime } from '~/lib/readingTime';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  const tagMap = new Map<string, CollectionEntry<'blog'>[]>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const slug = tag.toLowerCase().replace(/\s+/g, '-');
+      if (!tagMap.has(slug)) tagMap.set(slug, []);
+      tagMap.get(slug)!.push(post);
+    }
+  }
+
+  return Array.from(tagMap.entries()).map(([slug, tagPosts]) => ({
+    params: { tag: slug },
+    props: {
+      tagLabel: tagPosts[0].data.tags.find(
+        (t) => t.toLowerCase().replace(/\s+/g, '-') === slug,
+      ) ?? slug,
+      posts: tagPosts.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+      ),
+    },
+  }));
+}
+
+interface Props {
+  tagLabel: string;
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { tagLabel, posts } = Astro.props;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const postsWithReadingTime = await Promise.all(
+  posts.map(async (post) => {
+    const { body } = post;
+    const stats = computeReadingTime(body);
+    return { post, stats };
+  }),
+);
+---
+
+<BaseLayout
+  title={`${tagLabel} | Insights`}
+  description={`Adams Summit Partners insights tagged ${tagLabel}. Notes on Mountain West multifamily, underwriting, and operating.`}
+>
+  <PageHero
+    eyebrow="Insights"
+    heading={`Tagged: ${tagLabel}.`}
+    lede={`Posts filed under ${tagLabel}. Return to all insights any time.`}
+  />
+
+  <section class="bg-cream py-20 md:py-28">
+    <div class="container-narrow">
+      <div class="mb-10">
+        <a
+          href="/blog/"
+          class="text-sm tracking-wider uppercase font-medium text-navy hover:text-gold border-b border-gold pb-1"
+        >
+          ← All Insights
+        </a>
+      </div>
+
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {
+          postsWithReadingTime.map(({ post, stats }) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group block bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
+            >
+              {post.data.image && (
+                <div class="aspect-[16/9] overflow-hidden">
+                  <img
+                    src={post.data.image}
+                    alt=""
+                    loading="lazy"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              )}
+              <div class="p-7">
+                <div class="flex items-center gap-3 mb-3">
+                  <p class="eyebrow">{formatDate(post.data.pubDate)}</p>
+                  <span class="text-charcoal/30">·</span>
+                  <ReadingTime minutes={stats.minutes} />
+                </div>
+                <h3 class="font-serif text-2xl text-navy mb-2 group-hover:text-gold transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="text-sm text-charcoal/70 leading-relaxed">
+                  {post.data.description}
+                </p>
+                {post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-2 mt-4">
+                    {post.data.tags.map((t) => (
+                      <TagChip tag={t} active={t === tagLabel} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

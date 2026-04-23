@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHero from '~/components/PageHero.astro';
 import TagChip from '~/components/TagChip.astro';
@@ -7,71 +7,50 @@ import ReadingTime from '~/components/ReadingTime.astro';
 import CTABanner from '~/components/CTABanner.astro';
 import { computeReadingTime } from '~/lib/readingTime';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const austin = await getEntry('team', 'principal-1');
+
+const postsAll = await getCollection(
+  'blog',
+  ({ data }) => !data.draft && data.author === 'Austin Adams',
+);
+const posts = postsAll.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const formatDate = (d: Date) =>
+const formatDate = (d) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-// Compute all unique tags with counts
-const tagCounts = new Map<string, number>();
-for (const post of posts) {
-  for (const tag of post.data.tags) {
-    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
-  }
-}
-const allTags = Array.from(tagCounts.entries())
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([tag]) => tag);
-
-const postsWithReadingTime = posts.map((post) => ({
-  post,
-  stats: computeReadingTime(post.body),
-}));
+const postsWithReadingTime = await Promise.all(
+  posts.map(async (post) => ({ post, stats: computeReadingTime(post.body) })),
+);
 ---
 
 <BaseLayout
-  title="Insights"
-  description="Notes from Adams Summit Partners on multifamily real estate, underwriting, and operating properties in the Mountain West."
+  title="Austin Adams | Insights"
+  description="Posts by Austin Adams, founder of Adams Summit Partners. Notes on Mountain West multifamily, underwriting, and operating."
 >
   <PageHero
-    eyebrow="Insights"
-    heading="Notes from the operator."
-    lede="Periodic notes on markets, underwriting, and what we are learning as we acquire and operate Mountain West multifamily."
+    eyebrow="Author"
+    heading={austin?.data.name ?? 'Austin Adams'}
+    lede={austin?.data.bio ??
+      'Founder of Adams Summit Partners. Writes about Mountain West multifamily and running properties well.'}
   />
 
   <section class="bg-cream py-20 md:py-28">
     <div class="container-narrow">
-      {
-        allTags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mb-12">
-            <span class="eyebrow mr-2 self-center">Filter by tag</span>
-            {allTags.map((tag) => (
-              <TagChip tag={tag} />
-            ))}
-            <a
-              href="/rss.xml"
-              class="inline-block text-xs tracking-widest uppercase px-3 py-1 transition-colors border border-navy/40 text-navy hover:bg-navy hover:text-gold ml-auto"
-            >
-              RSS
-            </a>
-          </div>
-        )
-      }
+      <div class="mb-10 flex items-center justify-between">
+        <h2 class="font-serif text-3xl text-navy">Published posts.</h2>
+        <a
+          href="/blog/"
+          class="text-sm tracking-wider uppercase font-medium text-navy hover:text-gold border-b border-gold pb-1"
+        >
+          All Insights →
+        </a>
+      </div>
 
       {
-        posts.length === 0 ? (
-          <div class="max-w-2xl mx-auto text-center py-12">
-            <span class="gold-rule mx-auto mb-8" />
-            <h2 class="font-serif text-3xl text-navy mb-4">Insights coming soon.</h2>
-            <p class="text-charcoal/80 leading-relaxed">
-              We are preparing our first pieces on Mountain West multifamily, market
-              observations, and how we run our properties. In the meantime, reach out with
-              any questions. We would rather talk than publish.
-            </p>
-            <a href="/contact" class="btn-primary mt-8">Get in Touch</a>
-          </div>
+        postsWithReadingTime.length === 0 ? (
+          <p class="text-charcoal/70">No posts published yet.</p>
         ) : (
           <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             {postsWithReadingTime.map(({ post, stats }) => (

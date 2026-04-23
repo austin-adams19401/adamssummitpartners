@@ -1,0 +1,82 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHero from '~/components/PageHero.astro';
+
+// Mirrors the document list on the investor home page. Keep in sync until
+// we move this to a real content source in phase 3.
+const documents: Array<{
+  name: string;
+  href: string;
+  note?: string;
+  date?: string;
+}> = [
+  {
+    name: 'Sample Offering Summary',
+    href: '/investors/docs/sample-offering-summary.pdf',
+    note: 'Placeholder. Real offering summaries will appear here when a deal opens.',
+    date: '2026',
+  },
+];
+---
+
+<BaseLayout
+  title="Investor Documents"
+  description="Documents available to Adams Summit Partners investors."
+>
+  <PageHero
+    eyebrow="Investor Area"
+    heading="Documents"
+    lede="Offering summaries, financial statements, and anything else worth sharing with the people we work with."
+  />
+
+  <section class="bg-white py-20 md:py-24">
+    <div class="container-narrow">
+      <p class="text-sm text-charcoal/70 mb-8">
+        <a href="/investors" class="hover:text-gold">&larr; Back to investor home</a>
+      </p>
+
+      {documents.length === 0 ? (
+        <p class="text-charcoal/80">No documents posted yet.</p>
+      ) : (
+        <ul class="divide-y divide-navy/10 border-t border-b border-navy/10">
+          {documents.map((doc) => (
+            <li class="py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <a
+                  href={doc.href}
+                  class="font-serif text-xl text-navy hover:text-gold"
+                >
+                  {doc.name}
+                </a>
+                {doc.note && (
+                  <p class="text-sm text-charcoal/60 mt-1">{doc.note}</p>
+                )}
+                {doc.date && (
+                  <p class="text-xs text-charcoal/50 mt-1 uppercase tracking-widest">
+                    {doc.date}
+                  </p>
+                )}
+              </div>
+              <a
+                href={doc.href}
+                class="text-sm text-navy hover:text-gold uppercase tracking-widest font-medium self-start sm:self-center"
+              >
+                Download
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <section class="bg-cream py-12 border-t border-navy/10">
+    <div class="container-narrow">
+      <p class="text-xs text-charcoal/70 leading-relaxed max-w-3xl">
+        Documents in this area are shared for informational purposes. Any specific
+        offering is made only through the formal offering documents and to
+        accredited investors in jurisdictions where lawful.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

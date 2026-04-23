@@ -1,0 +1,56 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  currentSlug: string;
+  tags: string[];
+  posts: CollectionEntry<'blog'>[];
+  max?: number;
+}
+
+const { currentSlug, tags, posts, max = 3 } = Astro.props;
+
+const tagSet = new Set(tags.map((t) => t.toLowerCase()));
+
+const scored = posts
+  .filter((p) => p.slug !== currentSlug && !p.data.draft)
+  .map((p) => {
+    const shared = p.data.tags.filter((t) => tagSet.has(t.toLowerCase())).length;
+    return { post: p, shared };
+  })
+  .filter(({ shared }) => shared > 0)
+  .sort((a, b) => {
+    if (b.shared !== a.shared) return b.shared - a.shared;
+    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+  })
+  .slice(0, max)
+  .map(({ post }) => post);
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+{
+  scored.length > 0 && (
+    <section class="bg-cream py-16 md:py-20">
+      <div class="container-narrow">
+        <p class="eyebrow mb-4">Related reading</p>
+        <h2 class="font-serif text-3xl text-navy mb-10">More from the firm.</h2>
+        <div class="grid gap-8 md:grid-cols-3">
+          {scored.map((post) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group block bg-white p-7 border-l-2 border-gold hover:shadow-xl transition-shadow"
+            >
+              <p class="eyebrow mb-3">{formatDate(post.data.pubDate)}</p>
+              <h3 class="font-serif text-xl text-navy mb-2 group-hover:text-gold transition-colors">
+                {post.data.title}
+              </h3>
+              <p class="text-sm text-charcoal/70 leading-relaxed">{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

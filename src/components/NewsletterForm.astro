@@ -1,0 +1,153 @@
+---
+interface Props {
+  variant?: 'stacked' | 'inline';
+  heading?: string;
+  subheading?: string;
+  class?: string;
+}
+
+const {
+  variant = 'inline',
+  heading = 'Quiet updates, no spam.',
+  subheading = 'A short note when we have something worth saying, or a deal worth looking at.',
+  class: className = '',
+} = Astro.props;
+
+const formId = `newsletter-form-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class:list={['newsletter-form', className]}>
+  <form
+    id={formId}
+    class:list={[
+      'group',
+      variant === 'stacked' ? 'space-y-3' : 'space-y-4',
+    ]}
+    data-newsletter-form
+    novalidate
+  >
+    <div>
+      <h3 class="font-serif text-xl text-navy mb-1" data-theme-navy>{heading}</h3>
+      <p class="text-sm text-charcoal/70 leading-relaxed">{subheading}</p>
+    </div>
+
+    <div class:list={[variant === 'inline' ? 'flex flex-col sm:flex-row gap-3' : 'space-y-3']}>
+      <label class="flex-1">
+        <span class="sr-only">Email</span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="you@email.com"
+          class="w-full px-4 py-3 bg-white border border-navy/20 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold text-charcoal placeholder:text-charcoal/40"
+        />
+      </label>
+      <button
+        type="submit"
+        class="btn-primary whitespace-nowrap"
+        data-newsletter-submit
+      >
+        Subscribe
+      </button>
+    </div>
+
+    <p
+      class="text-sm text-charcoal/70 hidden"
+      data-newsletter-success
+      role="status"
+      aria-live="polite"
+    >
+      Thanks. You're on the list. Watch for a note from Austin.
+    </p>
+    <p
+      class="text-sm text-red-700 hidden"
+      data-newsletter-error
+      role="alert"
+    >
+      Something went wrong. Please try again, or email invest@adamssummitpartners.com.
+    </p>
+  </form>
+</div>
+
+<style>
+  .newsletter-form [data-theme-navy] {
+    color: #0B1E3B;
+  }
+  .newsletter-form.on-navy [data-theme-navy] {
+    color: #C9A961;
+  }
+  .newsletter-form.on-navy h3,
+  .newsletter-form.on-navy p {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .newsletter-form.on-navy input {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .newsletter-form.on-navy input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('form[data-newsletter-form]').forEach((formEl) => {
+    const form = formEl as HTMLFormElement;
+    const successEl = form.querySelector<HTMLElement>('[data-newsletter-success]');
+    const errorEl = form.querySelector<HTMLElement>('[data-newsletter-error]');
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-newsletter-submit]');
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!emailInput) return;
+
+      const email = emailInput.value.trim();
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        if (errorEl) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.classList.remove('hidden');
+        }
+        return;
+      }
+
+      successEl?.classList.add('hidden');
+      errorEl?.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Subscribing...';
+      }
+
+      try {
+        const res = await fetch('/.netlify/functions/newsletter-signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        const data = (await res.json().catch(() => ({}))) as {
+          ok?: boolean;
+          error?: string;
+        };
+
+        if (res.ok && data.ok) {
+          form.reset();
+          successEl?.classList.remove('hidden');
+        } else {
+          if (errorEl) {
+            errorEl.textContent =
+              data.error ?? 'Something went wrong. Please try again.';
+            errorEl.classList.remove('hidden');
+          }
+        }
+      } catch (err) {
+        errorEl?.classList.remove('hidden');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Subscribe';
+        }
+      }
+    });
+  });
+</script>

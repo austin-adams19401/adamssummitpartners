@@ -1,0 +1,22 @@
+---
+interface Props {
+  tag: string;
+  href?: string;
+  active?: boolean;
+  class?: string;
+}
+
+const { tag, href, active = false, class: className = '' } = Astro.props;
+
+const slug = tag.toLowerCase().replace(/\s+/g, '-');
+const resolvedHref = href ?? `/blog/tags/${slug}/`;
+
+const base =
+  'inline-block text-xs tracking-widest uppercase px-3 py-1 transition-colors border';
+const idle = 'text-gold border-gold/40 hover:bg-gold hover:text-navy';
+const activeStyles = 'bg-gold text-navy border-gold';
+---
+
+<a href={resolvedHref} class:list={[base, active ? activeStyles : idle, className]}>
+  {tag}
+</a>

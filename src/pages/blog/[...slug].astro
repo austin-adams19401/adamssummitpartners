@@ -1,6 +1,9 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BlogLayout from '~/layouts/BlogLayout.astro';
+import RelatedPosts from '~/components/RelatedPosts.astro';
+import NewsletterForm from '~/components/NewsletterForm.astro';
+import { computeReadingTime } from '~/lib/readingTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -16,6 +19,9 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const stats = computeReadingTime(post.body);
 ---
 
 <BlogLayout
@@ -26,6 +32,25 @@ const { Content } = await post.render();
   author={post.data.author}
   image={post.data.image}
   tags={post.data.tags}
+  readingMinutes={stats.minutes}
 >
   <Content />
 </BlogLayout>
+
+<section class="bg-white py-16 md:py-20 border-t border-navy/10">
+  <div class="container-prose">
+    <div class="max-w-2xl mx-auto bg-cream p-8 md:p-10 border-l-2 border-gold">
+      <NewsletterForm
+        variant="inline"
+        heading="Want more notes like this?"
+        subheading="Short updates from Austin when there is something worth saying, or a deal worth looking at."
+      />
+    </div>
+  </div>
+</section>
+
+<RelatedPosts
+  currentSlug={post.slug}
+  tags={post.data.tags}
+  posts={allPosts}
+/>

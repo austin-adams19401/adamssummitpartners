@@ -1,4 +1,6 @@
 ---
+import NewsletterForm from '~/components/NewsletterForm.astro';
+
 const year = new Date().getFullYear();
 
 const footerNav = {
@@ -26,10 +28,16 @@ const footerNav = {
         />
       </a>
       <p class="eyebrow mb-3">Elevating Value. Building Legacy.</p>
-      <p class="max-w-sm text-sm leading-relaxed text-white/70">
+      <p class="max-w-sm text-sm leading-relaxed text-white/70 mb-8">
         A small, focused real estate firm acquiring and operating multifamily properties
         across the Mountain West for working investors.
       </p>
+      <NewsletterForm
+        variant="stacked"
+        heading="Quiet updates, no spam."
+        subheading="A short note when we have something worth saying, or a deal worth looking at."
+        class="on-navy max-w-sm"
+      />
     </div>
 
     <div class="md:col-span-4 grid grid-cols-2 gap-8">

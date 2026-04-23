@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import TagChip from '~/components/TagChip.astro';
 
 interface Props {
   title: string;
@@ -9,12 +10,25 @@ interface Props {
   author: string;
   image?: string;
   tags: string[];
+  readingMinutes?: number;
 }
 
-const { title, description, pubDate, updatedDate, author, image, tags } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author,
+  image,
+  tags,
+  readingMinutes,
+} = Astro.props;
 
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const authorHref =
+  author === 'Austin Adams' ? '/author/austin-adams/' : undefined;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
@@ -25,8 +39,22 @@ const formatDate = (d: Date) =>
         <h1 class="font-serif text-4xl md:text-5xl text-white leading-tight mb-6">{title}</h1>
         <span class="gold-rule mb-6"></span>
         <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/70">
-          <span>By {author}</span>
+          {authorHref ? (
+            <a href={authorHref} class="hover:text-gold">
+              By {author}
+            </a>
+          ) : (
+            <span>By {author}</span>
+          )}
           <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+          {readingMinutes !== undefined && (
+            <>
+              <span class="text-white/30">·</span>
+              <span class="text-white/70 text-xs tracking-widest uppercase font-medium">
+                {readingMinutes} min read
+              </span>
+            </>
+          )}
           {updatedDate && (
             <span class="italic">Updated {formatDate(updatedDate)}</span>
           )}
@@ -51,9 +79,7 @@ const formatDate = (d: Date) =>
         tags.length > 0 && (
           <div class="container-prose mt-12 pt-8 border-t border-navy/10 flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <span class="text-xs tracking-widest uppercase text-gold border border-gold/40 px-3 py-1">
-                {tag}
-              </span>
+              <TagChip tag={tag} />
             ))}
           </div>
         )

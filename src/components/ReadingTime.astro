@@ -1,0 +1,12 @@
+---
+interface Props {
+  minutes: number;
+  class?: string;
+}
+
+const { minutes, class: className = '' } = Astro.props;
+---
+
+<span class:list={['text-xs tracking-widest uppercase font-medium text-charcoal/60', className]}>
+  {minutes} min read
+</span>
